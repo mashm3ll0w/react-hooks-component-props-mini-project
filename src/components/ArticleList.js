@@ -3,7 +3,21 @@ import Article from "./Article"
 function ArticleList({posts}){
 
   const renderPosts = posts.map(post => {
-    return <Article key={post.id} title={post.title} date={post.date} preview={post.preview}/>
+    const icons = []
+    if(post.minutes < 30){
+      const time = Math.ceil(post.minutes / 5)
+      for (let i=0; i<time; i++){
+        icons.push("☕️")
+      }
+      return <Article key={post.id} title={post.title} date={post.date} preview={post.preview} minutes={icons.join("") + " " + post.minutes}/>
+    }
+    else{  
+      const time = Math.ceil(post.minutes / 10)
+      for (let i=0; i < time; i++){
+        icons.push("🍱")
+      }
+      return <Article key={post.id} title={post.title} date={post.date} preview={post.preview} minutes={icons.join("") + " " + post.minutes}/>
+    }
   })
 
   return(
