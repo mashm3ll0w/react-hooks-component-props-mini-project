@@ -1,23 +1,27 @@
 import React from "react"
 import Article from "./Article"
-function ArticleList({posts}){
 
+function handlePost(postObj){
+  const readingIcons = []
+  let readingTime = 0
+  if(postObj.minutes < 30){
+    readingTime = Math.ceil(postObj.minutes / 5)
+    for(let i = 0; i < readingTime; i++){
+      readingIcons.push("☕️")
+    }
+  }
+  else{
+    readingTime = Math.ceil(postObj.minutes / 10)
+    for(let i = 0; i < readingTime; i++){
+      readingIcons.push("🍱")
+    }
+  }
+  return <Article key={postObj.id} title={postObj.title} date={postObj.date} preview={postObj.preview} minutes={`${readingIcons.join("")} ${postObj.minutes}`}/>
+}
+
+function ArticleList({posts}){
   const renderPosts = posts.map(post => {
-    const icons = []
-    if(post.minutes < 30){
-      const time = Math.ceil(post.minutes / 5)
-      for (let i=0; i<time; i++){
-        icons.push("☕️")
-      }
-      return <Article key={post.id} title={post.title} date={post.date} preview={post.preview} minutes={icons.join("") + " " + post.minutes}/>
-    }
-    else{  
-      const time = Math.ceil(post.minutes / 10)
-      for (let i=0; i < time; i++){
-        icons.push("🍱")
-      }
-      return <Article key={post.id} title={post.title} date={post.date} preview={post.preview} minutes={icons.join("") + " " + post.minutes}/>
-    }
+    return handlePost(post)
   })
 
   return(
